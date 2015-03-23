@@ -8,6 +8,8 @@
 
 4) Database details in index.js need to be configured
 
-5 ) Followed this Tutorial for Setting up nodeJS
+5 ) Followed these tTutorial for Setting up nodeJS and mysql connection
 https://www.youtube.com/watch?v=FqMIyTH9wSg
+http://codeforgeek.com/2015/01/nodejs-mysql-tutorial/
+
 
