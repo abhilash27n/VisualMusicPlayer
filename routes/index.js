@@ -20,10 +20,21 @@ router.post('/', function(req, res){
 	//res.send('COUNTRY SUBMITTED')
 	var country = req.body.country;
 	//execute query
-	connection.query('SELECT count(*) as NUM_SONGS from Songs where songCountry = "'+country+'"', function(err, rows, fields) {
+	query1 = 'SELECT count(*) as NUM_SONGS from Songs where songCountry = "'+country+'"';
+	query2 = 'SELECT youtubeId as url from Songs where songCountry = "'+country+'" LIMIT 1';
+	//connection.query(query1, function(err, rows, fields) {
+	// if (!err){
+	//     console.log('The solution is: ', rows);
+	//     res.render('index', { no_of_songs: rows[0].NUM_SONGS });
+	// }
+	// else
+	//     console.log('Error while performing Query.');
+	// });
+	connection.query(query2, function(err, rows, fields) {
 	if (!err){
 	    console.log('The solution is: ', rows);
-	    res.render('index', { no_of_songs: rows[0].NUM_SONGS });
+	    link = rows[0].url;
+	    res.render('index', { youtube_link: link });
 	}
 	else
 	    console.log('Error while performing Query.');

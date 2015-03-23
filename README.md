@@ -8,6 +8,6 @@
 
 4) Database details in index.js need to be configured
 
-5) Followed this Tutorial for Setting up nodeJS
+5 ) Followed this Tutorial for Setting up nodeJS
 https://www.youtube.com/watch?v=FqMIyTH9wSg
 
