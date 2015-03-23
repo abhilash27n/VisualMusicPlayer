@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>{{ title }}</title>
+    <title>DB Visual Music Player</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1>{{ title }}</h1>
-    <p>Welcome to {{ title }}</p>
+    <h1>DB Visual Music Player</h1>
+    <form action='/' method='post' >
+    	<label for='country'>Country <input type="text" name="country"></label>
+    	<input type="submit">
+    </form>
+    <div id='noCountries'>Number of songs from country is {{ no_of_songs }}</div>
   </body>
 </html>

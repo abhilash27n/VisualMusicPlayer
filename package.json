@@ -13,6 +13,7 @@
     "hjs": "~0.0.6",
     "less-middleware": "1.0.x",
     "morgan": "~1.5.1",
+    "mysql": "^2.5.5",
     "serve-favicon": "~2.2.0"
   },
   "description": "Visual Music Player",
