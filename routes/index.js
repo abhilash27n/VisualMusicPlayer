@@ -49,7 +49,8 @@ router.post('/', function(req, res){
 	    no_songs = rows.length;
 	    console.log("No of songs returned: "+no_songs);
 	    if(no_songs == 0){
-	    	alert("No Songs From Country");
+	    	//No songs returned
+	    	res.render('index', { youtube_link: "", no_of_songs: no_songs, country_name: country, from_year: fromYear, to_year: toYear });
 	    }
 	    else{
 	    	//generate randon number between 0 and number of songs
