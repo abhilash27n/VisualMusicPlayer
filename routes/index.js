@@ -25,6 +25,7 @@ router.post('/', function(req, res){
 	//execute query
 	query1 = 'SELECT count(*) as NUM_SONGS from Songs where songCountry = "'+country+'"';
 	query2 = 'SELECT youtubeId as url from Songs where songCountry = "'+country+'" LIMIT 1';
+	query2_1 = 'SELECT youtubeId as url from Songs where songCountry = "'+country+'"';
 	query3 = 'SELECT youtubeId as url from Songs where songCountry = "'+country+'" and releaseDate > '+fromYear+' and releaseDate < '+toYear;
 	//connection.query(query1, function(err, rows, fields) {
 	// if (!err){
@@ -34,16 +35,22 @@ router.post('/', function(req, res){
 	// else
 	//     console.log('Error while performing Query.');
 	// });
-	connection.query(query3, function(err, rows, fields) {
+	connection.query(query2_1, function(err, rows, fields) {
 	if (!err){
 	    //console.log('The solution is: ', rows)
 	    no_songs = rows.length;
 	    console.log("No of songs returned: "+no_songs);
-	    //generate randon number between 0 and number of songs
-	    var rand =randomIntFromInterval(0, no_songs-1);
-	    console.log("Random song selected: "+rand);
-	    link = rows[rand].url;
-	    res.render('index', { youtube_link: link });
+	    if(no_songs == 0){
+	    	alert("No Songs From Country");
+	    }
+	    else{
+	    	//generate randon number between 0 and number of songs
+		    var rand =randomIntFromInterval(0, no_songs-1);
+		    console.log("Random song selected: "+rand);
+		    link = rows[rand].url;
+		    res.render('index', { youtube_link: link, no_of_songs: no_songs });
+	   }
+	    
 	}
 	else
 	    console.log('Error while performing Query.');
