@@ -363,6 +363,7 @@
 	</script>
 
    <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+    <!--<div id="player" style="display : none;"></div>-->
     <div id="player"></div>
 
     <script>
@@ -401,6 +402,10 @@
         if (event.data == YT.PlayerState.PLAYING && !done) {
           //setTimeout(stopVideo, 6000);
           done = true;
+        }
+        //SUBMIT Form again once playing completed to fetch new random song
+        if(event.data == YT.PlayerState.ENDED){
+        	submitForm();
         }
       }
       function stopVideo() {
