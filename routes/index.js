@@ -19,9 +19,13 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res){
 	//res.send('COUNTRY SUBMITTED')
 	var country = req.body.country;
+	var fromYear = req.body.fromYear;
+	var toYear = req.body.toYear;
+
 	//execute query
 	query1 = 'SELECT count(*) as NUM_SONGS from Songs where songCountry = "'+country+'"';
 	query2 = 'SELECT youtubeId as url from Songs where songCountry = "'+country+'" LIMIT 1';
+	query3 = 'SELECT youtubeId as url from Songs where songCountry = "'+country+'" and releaseDate > '+fromYear+' and releaseDate < '+toYear;
 	//connection.query(query1, function(err, rows, fields) {
 	// if (!err){
 	//     console.log('The solution is: ', rows);
@@ -30,10 +34,15 @@ router.post('/', function(req, res){
 	// else
 	//     console.log('Error while performing Query.');
 	// });
-	connection.query(query2, function(err, rows, fields) {
+	connection.query(query3, function(err, rows, fields) {
 	if (!err){
-	    console.log('The solution is: ', rows);
-	    link = rows[0].url;
+	    //console.log('The solution is: ', rows)
+	    no_songs = rows.length;
+	    console.log("No of songs returned: "+no_songs);
+	    //generate randon number between 0 and number of songs
+	    var rand =randomIntFromInterval(0, no_songs-1);
+	    console.log("Random song selected: "+rand);
+	    link = rows[rand].url;
 	    res.render('index', { youtube_link: link });
 	}
 	else
@@ -48,4 +57,9 @@ process.on( 'SIGINT', function() {
   process.exit( );
 })
 
+
+function randomIntFromInterval(min,max)
+{
+    return Math.floor(Math.random()*(max-min+1)+min);
+}
 module.exports = router;
