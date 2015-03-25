@@ -13,7 +13,15 @@ var connection = mysql.createConnection({
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-	res.render('index', {});
+
+	//defaults
+	var link = "";
+	var no_songs = "NA";
+	var country = "None";
+	var fromYear = 1900;
+	var toYear = 2015;
+
+	res.render('index', {youtube_link: link, no_of_songs: no_songs, country_name: country, from_year: fromYear, to_year: toYear});
 });
 
 router.post('/', function(req, res){
@@ -26,7 +34,7 @@ router.post('/', function(req, res){
 	query1 = 'SELECT count(*) as NUM_SONGS from Songs where songCountry = "'+country+'"';
 	query2 = 'SELECT youtubeId as url from Songs where songCountry = "'+country+'" LIMIT 1';
 	query2_1 = 'SELECT youtubeId as url from Songs where songCountry = "'+country+'"';
-	query3 = 'SELECT youtubeId as url from Songs where songCountry = "'+country+'" and releaseDate > '+fromYear+' and releaseDate < '+toYear;
+	query3 = 'SELECT youtubeId as url from Songs where songCountry = "'+country+'" and releaseDate >= '+fromYear+' and releaseDate <= '+toYear;
 	//connection.query(query1, function(err, rows, fields) {
 	// if (!err){
 	//     console.log('The solution is: ', rows);
@@ -35,7 +43,7 @@ router.post('/', function(req, res){
 	// else
 	//     console.log('Error while performing Query.');
 	// });
-	connection.query(query2_1, function(err, rows, fields) {
+	connection.query(query3, function(err, rows, fields) {
 	if (!err){
 	    //console.log('The solution is: ', rows)
 	    no_songs = rows.length;
@@ -48,7 +56,7 @@ router.post('/', function(req, res){
 		    var rand =randomIntFromInterval(0, no_songs-1);
 		    console.log("Random song selected: "+rand);
 		    link = rows[rand].url;
-		    res.render('index', { youtube_link: link, no_of_songs: no_songs });
+		    res.render('index', { youtube_link: link, no_of_songs: no_songs, country_name: country, from_year: fromYear, to_year: toYear });
 	   }
 	    
 	}

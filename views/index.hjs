@@ -291,15 +291,15 @@
 	    <table>
 	    <tr>
 	    	<td>Country</td>
-	    	<td> <input type="text" name="country" id="country"></td>
+	    	<td> <input type="text" name="country" id="country" value="{{ country_name }}"></td>
 	    </tr>
 	    <tr>
 	    	<td>From</td>
-	    	<td><input type="text" name="fromYear"></td>
+	    	<td><input type="text" name="fromYear" id="fromYear" value="{{ from_year }}"></td>
 	    </tr>
 	    <tr>
 	    	<td>To</td>
-	    	<td><input type="text" name="toYear"></td>
+	    	<td><input type="text" name="toYear" id="toYear" value="{{ to_year }}"></td>
 	    </tr>
 	    <tr>
 	    	<td><input type="submit"></td>
@@ -307,17 +307,59 @@
 	    </table>
     </form>
     </div>
-    <div id='noCountries'>Number of songs from country is {{ no_of_songs }}</div>
+
+	<!-- Adding Slider for year-->
+	<table>
+		<tr>
+			<td>From Year</td>
+			<td><input type="range" min="1900" max="2015" value="{{ from_year }}" step="1" onchange="showValueFrom(this.value)" id="rangeFromYear" /></td>
+			<td><span id="rangeFrom">{{ from_year }}</span></td>
+		</tr>
+		<tr>
+			<td>To Year  </td>
+			<td><input type="range" min="1900" max="2015" value="{{ to_year }}" step="1" onchange="showValueTo(this.value)" id="rangeToYear" /></td>
+			<td><span id="rangeTo">{{ to_year }}</span></td>
+		</tr>
+	</table>
+
+	</br>
+	<div id='countrySelected'>Country selected is {{ country_name }}</div>
+    <div id='noCountries'>Number of songs from country from time period is {{ no_of_songs }}</div></br>
     
 
-    <!--Inserting method to get country -->
+    <!--Inserting method to get country, change from Year and To Year values with year validation-->
     <script type="text/javascript">
     	function getCountry(){
     		var country = cvi_tip._getCountry(event);;
     		//alert(country);
-    		document.getElementById('country').value = country;
-    		document.getElementById("countrySubmit").submit();
+    		document.getElementById('country').value = country;	
+    		submitForm();
     	}
+    	function showValueFrom(newValue){
+    		if(newValue > document.getElementById("rangeToYear").value){
+    			newValue = document.getElementById("rangeToYear").value;
+    			document.getElementById("rangeFromYear").value = newValue;
+    		}
+			document.getElementById("rangeFrom").innerHTML=newValue;
+			document.getElementById("fromYear").value = newValue;
+			submitForm();
+		}
+		function showValueTo(newValue){
+			if(newValue < document.getElementById("rangeFromYear").value){
+    			newValue = document.getElementById("rangeFromYear").value;
+    			document.getElementById("rangeToYear").value = newValue;
+    		}
+			document.getElementById("rangeTo").innerHTML=newValue;
+			document.getElementById("toYear").value = newValue;
+			submitForm();
+		}
+		//DOESN'T IF COUNTRY NOT SELECTED
+		//TODO - CHANGE QUERY TYPE DEPENDING ON SELECTION 
+		function submitForm(){
+			if(document.getElementById('country').value != "None"){
+				document.getElementById("countrySubmit").submit();
+			}
+		}
 	</script>
 
    <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
