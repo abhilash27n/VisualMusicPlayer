@@ -11,6 +11,15 @@ var connection = mysql.createConnection({
   database : 'Database_Project_DB'
 });
 
+
+//Testing world map
+/*router.get('/world', function(req, res, next) {
+
+	res.sendfile("views/zoomingToCountries.html");
+});
+*/
+
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
 
