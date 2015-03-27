@@ -35,9 +35,14 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res){
 	//res.send('COUNTRY SUBMITTED')
+	//POST REQUEST
 	var country = req.body.country;
 	var fromYear = req.body.fromYear;
 	var toYear = req.body.toYear;
+	//GET REQUEST
+	//var country = req.query.country;
+	//var fromYear = req.query.fromYear;
+	//var toYear = req.query.toYear;
 
 	//execute query
 	query1 = 'SELECT count(*) as NUM_SONGS from Songs where songCountry = "'+country+'"';
@@ -66,7 +71,8 @@ router.post('/', function(req, res){
 		    var rand =randomIntFromInterval(0, no_songs-1);
 		    console.log("Random song selected: "+rand);
 		    link = rows[rand].url;
-		    res.render('index', { youtube_link: link, no_of_songs: no_songs, country_name: country, from_year: fromYear, to_year: toYear });
+		    //res.json({ youtube_link: link, no_of_songs: no_songs, country_name: country, from_year: fromYear, to_year: toYear });
+		    res.send(JSON.stringify(link));
 	   }
 	    
 	}

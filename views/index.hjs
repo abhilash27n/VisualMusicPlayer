@@ -4,7 +4,8 @@
     <title>DB Visual Music Player</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <!-- Adding the new map code from Ammap -->
-    <link rel="stylesheet" href="../ammap/ammap.css" type="text/css">        
+    <link rel="stylesheet" href="../ammap/ammap.css" type="text/css">  
+    	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>      
         <script src="../ammap/ammap.js" type="text/javascript"></script>
         <!-- map file should be included after ammap.js -->
 		<script src="../ammap/maps/js/worldLow.js" type="text/javascript"></script>    
@@ -73,11 +74,28 @@
 	    	<td><input type="text" name="toYear" id="toYear" value="{{ to_year }}"></td>
 	    </tr>
 	    <tr>
-	    	<td><input type="submit"></td>
+	    	<td><input type="submit" value="Submit" id="submitButton"></td>
 	   	</tr>
 	    </table>
     </form>
     </div>
+
+    <!--ADDING AJAX CALLS ON SUBMIT-->
+    <!-- Overriding submit with ajax call-->
+    <script type="text/javascript">
+	    $(document).ready(function  () {
+
+		 	$("#countrySubmit").submit(function  (e) {
+		 		e.preventDefault();
+		 		console.log();
+		 		$.post("/",$(this).serialize(), function( data ) {
+				  console.log(data);
+				  playReceivedSong(data);
+				});
+		 	})
+		 });
+    </script>
+
 
 	<!-- Adding Slider for year-->
 	<table>
@@ -94,8 +112,8 @@
 	</table>
 
 	</br>
-	<div id='countrySelected'>Country selected is {{ country_name }}</div>
-    <div id='noCountries'>Number of songs from country from time period is {{ no_of_songs }}</div></br>
+	<div id='countrySelected'></div>
+    <!--<div id='noCountries'>Number of songs from country from time period is {{ no_of_songs }}</div></br>-->
     
 
     <!--Inserting method to get country, change from Year and To Year values with year validation-->
@@ -103,6 +121,7 @@
     	//This function is called from ammap.js "clickMapObject" function
     	function getCountry(country){
     		document.getElementById('country').value = country;	
+    		document.getElementById('countrySelected').innerHTML = country;
     		submitForm();
     	}
     	function showValueFrom(newValue){
@@ -123,11 +142,13 @@
 			document.getElementById("toYear").value = newValue;
 			submitForm();
 		}
-		//DOESN'T IF COUNTRY NOT SELECTED
+		//DOESN'T WORK IF COUNTRY NOT SELECTED
 		//TODO - CHANGE QUERY TYPE DEPENDING ON SELECTION 
 		function submitForm(){
 			if(document.getElementById('country').value != "None"){
-				document.getElementById("countrySubmit").submit();
+				//Not sure why direct submit is not working. Clicking submit is being overridden in ajax call above
+				//document.getElementById("countrySubmit").submit();
+				document.getElementById("submitButton").click();
 			}
 		}
 	</script>
@@ -147,11 +168,12 @@
       // 3. This function creates an <iframe> (and YouTube player)
       //    after the API code downloads.
       var player;
-      function onYouTubeIframeAPIReady() {
+      function onYouTubeIframeAPIReady(youtube_link) {
         player = new YT.Player('player', {
           height: '390',
           width: '640',
           videoId: '{{ youtube_link }}',
+          videoId: youtube_link,
           events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange
@@ -181,6 +203,12 @@
       function stopVideo() {
         player.stopVideo();
       }
+      //play song received by AJAX request
+      function playReceivedSong(videoId){
+      	 videoIdnew = videoId.replace(/"/g, '');
+      	 player.loadVideoById(videoIdnew);
+      }
+
     </script>
   </body>
 </html>
