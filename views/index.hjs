@@ -90,7 +90,7 @@
 		 		console.log();
 		 		$.post("/",$(this).serialize(), function( data ) {
 				  console.log(data);
-				  playReceivedSong(data);
+				  checkSongExists(data);
 				});
 		 	})
 		 });
@@ -151,11 +151,28 @@
 				document.getElementById("submitButton").click();
 			}
 		}
+		//checks if a valid songId is returned before displaying player block and playing it
+		function checkSongExists(data){
+			//strip double quotes from the string returned from server
+			var videoId = data.replace(/"/g, '');
+
+			if(videoId == "NoSongsReturned"){
+			  	document.getElementById("nosong").style.display = 'block';
+			  	document.getElementById("player").style.display = 'none';  	
+			  	stopVideo();
+			}
+			else{
+				document.getElementById("nosong").style.display = 'none';
+			  	document.getElementById("player").style.display = 'block';
+			  	playReceivedSong(videoId);	
+			}
+		}
 	</script>
 
    <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
     <!--<div id="player" style="display : none;"></div>-->
-    <div id="player"></div>
+    <div id="player" style="display : none;"></div>
+    <div id="nosong" style="display : none;">No song from selected country for time period</div>
 
     <script>
       // 2. This code loads the IFrame Player API code asynchronously.
@@ -205,8 +222,7 @@
       }
       //play song received by AJAX request
       function playReceivedSong(videoId){
-      	 videoIdnew = videoId.replace(/"/g, '');
-      	 player.loadVideoById(videoIdnew);
+		player.loadVideoById(videoId);
       }
 
     </script>

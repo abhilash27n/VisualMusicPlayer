@@ -64,7 +64,8 @@ router.post('/', function(req, res){
 	    console.log("No of songs returned: "+no_songs);
 	    if(no_songs == 0){
 	    	//No songs returned
-	    	res.render('index', { youtube_link: "", no_of_songs: no_songs, country_name: country, from_year: fromYear, to_year: toYear });
+	    	//res.render('index', { youtube_link: "", no_of_songs: no_songs, country_name: country, from_year: fromYear, to_year: toYear });
+	    	res.send(JSON.stringify("NoSongsReturned"));
 	    }
 	    else{
 	    	//generate randon number between 0 and number of songs
