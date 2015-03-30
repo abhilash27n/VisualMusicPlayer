@@ -3,56 +3,70 @@
   <head>
     <title>DB Visual Music Player</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <!-- Adding the new map code from Ammap -->
     <link rel="stylesheet" href="../ammap/ammap.css" type="text/css">  
-    	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>      
-        <script src="../ammap/ammap.js" type="text/javascript"></script>
-        <!-- map file should be included after ammap.js -->
-		<script src="../ammap/maps/js/worldLow.js" type="text/javascript"></script>    
-        <script type="text/javascript">
-                    
-			// add all your code to this method, as this will ensure that page is loaded
-			AmCharts.ready(function() {
-			    // create AmMap object
-			    var map = new AmCharts.AmMap();
-			    // set path to images
-			    map.pathToImages = "../ammap/images/";
-			    
-			    /* create data provider object
-			     mapVar tells the map name of the variable of the map data. You have to
-			     view source of the map file you included in order to find the name of the 
-			     variable - it's the very first line after commented lines.
-			     
-			     getAreasFromMap indicates that amMap should read all the areas available
-			     in the map data and treat them as they are included in your data provider.
-			     in case you don't set it to true, all the areas except listed in data
-			     provider will be treated as unlisted.
-			    */
-			    var dataProvider = {
-			        mapVar: AmCharts.maps.worldLow,
-			        getAreasFromMap:true                    
-			    }; 
-			    // pass data provider to the map object
-			    map.dataProvider = dataProvider;
-			
-			    /* create areas settings
-			     * autoZoom set to true means that the map will zoom-in when clicked on the area
-			     * selectedColor indicates color of the clicked area.
-			     */
-			    map.areasSettings = {
-			        autoZoom: true,
-			        selectedColor: "#CC0000"
-			    };
-			
-			    // let's say we want a small map to be displayed, so let's create and add it to the map
-			    map.smallMap = new AmCharts.SmallMap();
-			
-			    // write the map to container div
-			    map.write("mapdiv");               
-			    
-			});
-            
-        </script>
+
+    <!--for ajax and selectable stuff-->
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    	
+	<!--Style elements for SELECTABLE (change as required)-->
+	<style>
+	  #feedback { font-size: 1.4em; }
+	  #selectable .ui-selecting { background: #FECA40; }
+	  #selectable .ui-selected { background: #F39814; color: white; }
+	  #selectable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+	  #selectable li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 18px; }
+	</style>    	
+    
+    <script src="../ammap/ammap.js" type="text/javascript"></script>
+    <!-- map file should be included after ammap.js -->
+	<script src="../ammap/maps/js/worldLow.js" type="text/javascript"></script>    
+    <script type="text/javascript">
+                
+		// add all your code to this method, as this will ensure that page is loaded
+		AmCharts.ready(function() {
+		    // create AmMap object
+		    var map = new AmCharts.AmMap();
+		    // set path to images
+		    map.pathToImages = "../ammap/images/";
+		    
+		    /* create data provider object
+		     mapVar tells the map name of the variable of the map data. You have to
+		     view source of the map file you included in order to find the name of the 
+		     variable - it's the very first line after commented lines.
+		     
+		     getAreasFromMap indicates that amMap should read all the areas available
+		     in the map data and treat them as they are included in your data provider.
+		     in case you don't set it to true, all the areas except listed in data
+		     provider will be treated as unlisted.
+		    */
+		    var dataProvider = {
+		        mapVar: AmCharts.maps.worldLow,
+		        getAreasFromMap:true                    
+		    }; 
+		    // pass data provider to the map object
+		    map.dataProvider = dataProvider;
+		
+		    /* create areas settings
+		     * autoZoom set to true means that the map will zoom-in when clicked on the area
+		     * selectedColor indicates color of the clicked area.
+		     */
+		    map.areasSettings = {
+		        autoZoom: true,
+		        selectedColor: "#CC0000"
+		    };
+		
+		    // let's say we want a small map to be displayed, so let's create and add it to the map
+		    map.smallMap = new AmCharts.SmallMap();
+		
+		    // write the map to container div
+		    map.write("mapdiv");               
+		    
+		});
+        
+    </script>
   </head>
   <body>
     <h1>DB Visual Music Player</h1>
@@ -87,7 +101,7 @@
 	
     </br>
 	<!-- Adding Slider for year-->
-	<div id="sliders" style="clear: both;">
+	<div id="sliders" style="clear: both; width: 60%;">
 	<table>
 		<tr>
 			<td>From Year</td>
@@ -104,6 +118,14 @@
 	</br>
 	<div id='countrySelected'></div>
     <!--<div id='noCountries'>Number of songs from country from time period is {{ no_of_songs }}</div></br>-->
+
+
+    <ol id="selectable">
+	  <li class="ui-widget-content">Top Songs From Country/Period</li>
+	  <li class="ui-widget-content">Top Artists</li>
+	  <li class="ui-widget-content">Legendary</li>
+	</ol>
+
 
 	<!--ADDING AJAX CALLS ON SUBMIT-->
     <!-- Overriding submit with ajax call-->
@@ -222,7 +244,16 @@
       function playReceivedSong(videoId){
 		player.loadVideoById(videoId);
       }
-
     </script>
+    <!--Selectable scripts -->
+    <script>
+	  $(function() {
+	    $( "#selectable" ).selectable({
+		  selected: function( event, ui ) {
+		  	alert(ui.selected.innerHTML);
+		  }
+		});
+	  });
+  </script>
   </body>
 </html>
