@@ -8,8 +8,11 @@
 
 4) Database details in index.js need to be configured
 
-5 ) Followed these tTutorial for Setting up nodeJS and mysql connection
+5 ) Followed these tutorials for setting up nodeJS and mysql connection
 https://www.youtube.com/watch?v=FqMIyTH9wSg
 http://codeforgeek.com/2015/01/nodejs-mysql-tutorial/
 
+6) Slider tutorials
+https://jqueryui.com/slider/#range
+https://api.jquerymobile.com/rangeslider/
 
