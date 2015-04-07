@@ -87,6 +87,10 @@
 	    	<td><input type="text" name="toYear" id="toYear" value="{{ to_year }}"></td>
 	    </tr>
 	    <tr>
+	    	<td>Options</td>
+	    	<td><input type="text" name="options" id="options" value="{{ query_option }}"></td>
+	    </tr>
+	    <tr>
 	    	<td><input type="submit" value="Submit" id="submitButton"></td>
 	   	</tr>
 	    </table>
@@ -131,9 +135,9 @@
 
 
     <ol id="selectable">
-	  <li class="ui-widget-content">Top Songs From Country/Period</li>
-	  <li class="ui-widget-content">Top Artists</li>
-	  <li class="ui-widget-content">Legendary</li>
+	  <li class="ui-widget-content">Random</li>
+	  <li class="ui-widget-content">TopArtists</li>
+	  <li class="ui-widget-content">TopGenres</li>
 	</ol>
 
 
@@ -284,7 +288,8 @@
 	  $(function() {
 	    $( "#selectable" ).selectable({
 		  selected: function( event, ui ) {
-		  	alert(ui.selected.innerHTML);
+		  	//alert(ui.selected.innerHTML);
+		  	document.getElementById("options").value = ui.selected.innerHTML;
 		  }
 		});
 	  });

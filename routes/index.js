@@ -7,7 +7,7 @@ var router = express.Router();
 var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
-  password : 'start',
+  password : 'root',
   database : 'Database_Project_DB'
 });
 
@@ -39,16 +39,27 @@ router.post('/', function(req, res){
 	var country = req.body.country;
 	var fromYear = req.body.fromYear;
 	var toYear = req.body.toYear;
+	var options = req.body.options;
+//	var queryOption = req.body.queryOption;
 	//GET REQUEST
 	//var country = req.query.country;
 	//var fromYear = req.query.fromYear;
 	//var toYear = req.query.toYear;
 
 	//execute query
-	query1 = 'SELECT count(*) as NUM_SONGS from Songs where songCountry = "'+country+'"';
-	query2 = 'SELECT youtubeId as url from Songs where songCountry = "'+country+'" LIMIT 1';
-	query2_1 = 'SELECT youtubeId as url from Songs where songCountry = "'+country+'"';
-	query3 = 'SELECT youtubeId as url from Songs where songCountry = "'+country+'" and releaseDate >= '+fromYear+' and releaseDate <= '+toYear;
+	if(options==="Random") {
+		query = 'SELECT youtubeId as url from Songs where songCountry = "'+country+'"';
+	}
+	else if (options==="TopArtists") {
+		query = "SELECT song.youtubeId as url from Songs song, (select artistId, sum(viewCount) TotalViews from Songs where songCountry='"+country+"' group by artistId order by TotalViews desc limit 1) artist where song.artistId=artist.artistId";	
+		console.log(query);
+	}
+
+
+//	query1 = 'SELECT count(*) as NUM_SONGS from Songs where songCountry = "'+country+'"';
+//	query2 = 'SELECT youtubeId as url from Songs where songCountry = "'+country+'" LIMIT 1';
+//	query2_1 = 'SELECT youtubeId as url from Songs where songCountry = "'+country+'"';
+//	query3 = 'SELECT youtubeId as url from Songs where songCountry = "'+country+'" and releaseDate >= '+fromYear+' and releaseDate <= '+toYear;
 	//connection.query(query1, function(err, rows, fields) {
 	// if (!err){
 	//     console.log('The solution is: ', rows);
@@ -57,7 +68,7 @@ router.post('/', function(req, res){
 	// else
 	//     console.log('Error while performing Query.');
 	// });
-	connection.query(query3, function(err, rows, fields) {
+	connection.query(query, function(err, rows, fields) {
 	if (!err){
 	    //console.log('The solution is: ', rows)
 	    no_songs = rows.length;
