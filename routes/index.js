@@ -30,7 +30,6 @@ router.post('/', function(req, res){
 	var country = req.body.country;
 	var fromYear = req.body.fromYear;
 	var toYear = req.body.toYear;
-<<<<<<< HEAD
 	var options = req.body.options;
 //	var queryOption = req.body.queryOption;
 	//GET REQUEST
@@ -60,9 +59,7 @@ router.post('/', function(req, res){
 	// else
 	//     console.log('Error while performing Query.');
 	// });
-=======
 
->>>>>>> c39450692d117ff25c7b605fe530fe083d749622
 	connection.query(query, function(err, rows, fields) {
 	if (!err){
 	    //console.log('The solution is: ', rows)
