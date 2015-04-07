@@ -12,14 +12,6 @@ var connection = mysql.createConnection({
 });
 
 
-//Testing world map
-/*router.get('/world', function(req, res, next) {
-
-	res.sendfile("views/zoomingToCountries.html");
-});
-*/
-
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
 
@@ -34,11 +26,11 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res){
-	//res.send('COUNTRY SUBMITTED')
 	//POST REQUEST
 	var country = req.body.country;
 	var fromYear = req.body.fromYear;
 	var toYear = req.body.toYear;
+<<<<<<< HEAD
 	var options = req.body.options;
 //	var queryOption = req.body.queryOption;
 	//GET REQUEST
@@ -68,6 +60,9 @@ router.post('/', function(req, res){
 	// else
 	//     console.log('Error while performing Query.');
 	// });
+=======
+
+>>>>>>> c39450692d117ff25c7b605fe530fe083d749622
 	connection.query(query, function(err, rows, fields) {
 	if (!err){
 	    //console.log('The solution is: ', rows)
@@ -75,7 +70,6 @@ router.post('/', function(req, res){
 	    console.log("No of songs returned: "+no_songs);
 	    if(no_songs == 0){
 	    	//No songs returned
-	    	//res.render('index', { youtube_link: "", no_of_songs: no_songs, country_name: country, from_year: fromYear, to_year: toYear });
 	    	res.send(JSON.stringify("NoSongsReturned"));
 	    }
 	    else{
@@ -83,7 +77,6 @@ router.post('/', function(req, res){
 		    var rand =randomIntFromInterval(0, no_songs-1);
 		    console.log("Random song selected: "+rand);
 		    link = rows[rand].url;
-		    //res.json({ youtube_link: link, no_of_songs: no_songs, country_name: country, from_year: fromYear, to_year: toYear });
 		    res.send(JSON.stringify(link));
 	   }
 	    
