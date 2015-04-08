@@ -116,7 +116,7 @@
     			<td id="songLanguage"></td>
     		</tr>
     		<tr>
-    			<td>ReleaseDate</td>
+    			<td>Release Date</td>
     			<td id="releaseDate"></td>
     		</tr>
     	</table>
@@ -189,7 +189,6 @@
     		submitForm();
     	}
  
-		//TODO - CHANGE QUERY TYPE DEPENDING ON SELECTION 
 		function submitForm(){
 			if(document.getElementById('country').value != "None"){
 				//Not sure why direct submit is not working. Clicking submit is being overridden in ajax call above
@@ -199,7 +198,6 @@
 		}
 		//checks if a valid songId is returned before displaying player block and playing it
 		function checkSongExists(data){
-			//strip double quotes from the string returned from server
 			if(data == "\"NoSongsReturned\""){
 			  	document.getElementById("nosong").style.display = 'block';
 			  	document.getElementById("player").style.display = 'none';  	
