@@ -251,7 +251,6 @@
 	  $(function() {
 	    $( "#selectable" ).selectable({
 		  selected: function( event, ui ) {
-		  	//alert(ui.selected.innerHTML);
 		  	document.getElementById("options").value = ui.selected.innerHTML;
 		  }
 		});

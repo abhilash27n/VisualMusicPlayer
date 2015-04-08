@@ -31,11 +31,6 @@ router.post('/', function(req, res){
 	var fromYear = req.body.fromYear;
 	var toYear = req.body.toYear;
 	var options = req.body.options;
-//	var queryOption = req.body.queryOption;
-	//GET REQUEST
-	//var country = req.query.country;
-	//var fromYear = req.query.fromYear;
-	//var toYear = req.query.toYear;
 
 	//execute query
 	if(options==="Random") {
@@ -45,20 +40,6 @@ router.post('/', function(req, res){
 		query = "SELECT song.youtubeId as url from Songs song, (select artistId, sum(viewCount) TotalViews from Songs where songCountry='"+country+"' group by artistId order by TotalViews desc limit 1) artist where song.artistId=artist.artistId";	
 		console.log(query);
 	}
-
-
-//	query1 = 'SELECT count(*) as NUM_SONGS from Songs where songCountry = "'+country+'"';
-//	query2 = 'SELECT youtubeId as url from Songs where songCountry = "'+country+'" LIMIT 1';
-//	query2_1 = 'SELECT youtubeId as url from Songs where songCountry = "'+country+'"';
-//	query3 = 'SELECT youtubeId as url from Songs where songCountry = "'+country+'" and releaseDate >= '+fromYear+' and releaseDate <= '+toYear;
-	//connection.query(query1, function(err, rows, fields) {
-	// if (!err){
-	//     console.log('The solution is: ', rows);
-	//     res.render('index', { no_of_songs: rows[0].NUM_SONGS });
-	// }
-	// else
-	//     console.log('Error while performing Query.');
-	// });
 
 	connection.query(query, function(err, rows, fields) {
 	if (!err){
