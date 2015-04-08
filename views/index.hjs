@@ -99,8 +99,16 @@
 
     <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
     <!--<div id="player" style="display : none;"></div>-->
-    <div id="player" style="display : none; width: 38%; float: right; margin-top: 55px; margin-bottom: 55px"></div>
+    <div id="player" style="display : none; width: 38%; float: right; margin-top: 55px; margin-bottom: 45px"></div>
     <div id="nosong" style="display : none; width: 38%; float: right;">No song from selected country for time period</div>
+    <div id="topArtist" style="display : none; width: 38%; float: right;">
+    	<table>
+    		<tr>
+    			<td>Top Artist</td>
+    			<td id="artistName"></td>
+    		</tr>
+    	</table>
+    </div>
     <div id="songDetails" style="display : none; width: 38%; float: right;">
     	<table>
     		<tr>
@@ -124,7 +132,7 @@
 
 	<!-- Adding new slider --> 
 
-	<p style="clear: both; width: 60%;">
+	<p style="clear: both; width: 60%; ">
 	  <label for="yearrange">Year Range:</label>
 	  <input type="text" id="yearrange" readonly style="border:0; color:#f6931f; font-weight:bold;">
 	</p>
@@ -202,6 +210,7 @@
 			  	document.getElementById("nosong").style.display = 'block';
 			  	document.getElementById("player").style.display = 'none';  	
 			  	document.getElementById("songDetails").style.display = 'none'; 
+			  	document.getElementById("topArtist").style.display = 'none'; 
 			  	stopVideo();
 			}
 			else{
@@ -210,6 +219,12 @@
 				document.getElementById("nosong").style.display = 'none';
 			  	document.getElementById("player").style.display = 'block';
 			  	document.getElementById("songDetails").style.display = 'block'; 
+			  	if(document.getElementById("options").value == 'TopArtists'){
+			  		document.getElementById("topArtist").style.display = 'block'; 
+			  	}
+			  	else{
+			  		document.getElementById("topArtist").style.display = 'none'; 
+			  	}
 			  	playReceivedSong(songDetails.url);	
 			}
 		}
@@ -219,6 +234,9 @@
 			document.getElementById('songCountry').innerHTML = ": " + songDetails.songCountry;
 			document.getElementById('songLanguage').innerHTML = ": " + songDetails.songLanguage;
 			document.getElementById('releaseDate').innerHTML = ": " + songDetails.releaseDate;
+			if(document.getElementById("options").value == 'TopArtists'){
+			  		document.getElementById("artistName").innerHTML = ": " + songDetails.artistName;
+			}
 		}
 	</script>
     <script>

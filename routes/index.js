@@ -37,7 +37,7 @@ router.post('/', function(req, res){
 		query = 'SELECT youtubeId as url, songName, songCountry, songLanguage, releaseDate from Songs where songCountry = "'+country+'" and releaseDate >= '+fromYear+' and releaseDate <= '+toYear;;
 	}
 	else if (options==="TopArtists") {
-		query = "SELECT song.youtubeId as url, song.songName, song.songCountry, song.songLanguage, song.releaseDate from Songs song, (select artistId, sum(viewCount) TotalViews from Songs where songCountry='"+country+"' and releaseDate >= '"+fromYear+"' and releaseDate <= '"+toYear+"' group by artistId order by TotalViews desc limit 1) artist where song.artistId=artist.artistId";	
+		query = "SELECT song.youtubeId as url, song.songName, song.songCountry, song.songLanguage, song.releaseDate, artist.artistName from Songs song, Artists artist, (select artistId, sum(viewCount) TotalViews from Songs where songCountry='"+country+"' and releaseDate >= '"+fromYear+"' and releaseDate <= '"+toYear+"' group by artistId order by TotalViews desc limit 1) topArtist where song.artistId=topArtist.artistId and topArtist.artistId=artist.artistId";	
 		console.log(query);
 	}
 
