@@ -145,9 +145,9 @@
 	<!-- Selectable Tags -->
     <ol id="selectable">
 	  <li class="ui-widget-content">TopArtists</li>
-	  <li class="ui-widget-content">TopGenres</li>
+	  <li class="ui-widget-content">TopSongs</li>
 	</ol>
-	<p>Default: Plays random songs by default. Ctrl click to deselect</p>
+	<p>Default: Plays random songs by default. Ctr-click to deselect</p>
 
 
 	<!--ADDING AJAX CALLS ON SUBMIT-->
@@ -219,6 +219,7 @@
 				document.getElementById("nosong").style.display = 'none';
 			  	document.getElementById("player").style.display = 'block';
 			  	document.getElementById("songDetails").style.display = 'block'; 
+			  	//display topArtist only if option selected
 			  	if(document.getElementById("options").value == 'TopArtists'){
 			  		document.getElementById("topArtist").style.display = 'block'; 
 			  	}

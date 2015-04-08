@@ -31,13 +31,18 @@ router.post('/', function(req, res){
 	var fromYear = req.body.fromYear;
 	var toYear = req.body.toYear;
 	var options = req.body.options;
+	topSongsPercent = 10;
 
 	//execute query
 	if(options==="Random") {
-		query = 'SELECT youtubeId as url, songName, songCountry, songLanguage, releaseDate from Songs where songCountry = "'+country+'" and releaseDate >= '+fromYear+' and releaseDate <= '+toYear;;
+		query = 'SELECT youtubeId as url, songName, songCountry, songLanguage, releaseDate from Songs where songCountry = "'+country+'" and releaseDate >= '+fromYear+' and releaseDate <= '+toYear;
 	}
 	else if (options==="TopArtists") {
 		query = "SELECT song.youtubeId as url, song.songName, song.songCountry, song.songLanguage, song.releaseDate, artist.artistName from Songs song, Artists artist, (select artistId, sum(viewCount) TotalViews from Songs where songCountry='"+country+"' and releaseDate >= '"+fromYear+"' and releaseDate <= '"+toYear+"' group by artistId order by TotalViews desc limit 1) topArtist where song.artistId=topArtist.artistId and topArtist.artistId=artist.artistId";	
+		console.log(query);
+	}
+	else if (options=="TopSongs") {
+		query = 'SELECT youtubeId as url, songName, songCountry, songLanguage, releaseDate from Songs where songCountry = "'+country+'" and releaseDate >= '+fromYear+' and releaseDate <= '+toYear+' order by viewCount desc';
 		console.log(query);
 	}
 
@@ -51,6 +56,11 @@ router.post('/', function(req, res){
 	    	res.send(JSON.stringify("NoSongsReturned"));
 	    }
 	    else{
+	    	//get top n% of songs
+	    	if(options=="TopSongs"){
+	    		no_songs=no_songs/(100/topSongsPercent);
+	    		console.log("No of songs reduced to "+no_songs);
+	    	}
 	    	//generate randon number between 0 and number of songs
 		    var rand =randomIntFromInterval(0, no_songs-1);
 		    console.log("Random song selected: "+rand);
