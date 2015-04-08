@@ -88,7 +88,7 @@
 	    </tr>
 	    <tr>
 	    	<td>Options</td>
-	    	<td><input type="text" name="options" id="options" value="{{ query_option }}"></td>
+	    	<td><input type="text" name="options" id="options" value="Random"></td>
 	    </tr>
 	    <tr>
 	    	<td><input type="submit" value="Submit" id="submitButton"></td>
@@ -99,8 +99,28 @@
 
     <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
     <!--<div id="player" style="display : none;"></div>-->
-    <div id="player" style="display : none; width: 38%; float: right; margin-top: 55px;"></div>
+    <div id="player" style="display : none; width: 38%; float: right; margin-top: 55px; margin-bottom: 55px"></div>
     <div id="nosong" style="display : none; width: 38%; float: right;">No song from selected country for time period</div>
+    <div id="songDetails" style="display : none; width: 38%; float: right;">
+    	<table>
+    		<tr>
+    			<td>Song Name</td>
+    			<td id="songName"></td>
+    		</tr>
+    		<tr>
+    			<td>Country</td>
+    			<td id="songCountry"></td>
+    		</tr>
+    		<tr>
+    			<td>Language</td>
+    			<td id="songLanguage"></td>
+    		</tr>
+    		<tr>
+    			<td>ReleaseDate</td>
+    			<td id="releaseDate"></td>
+    		</tr>
+    	</table>
+    </div>
 
 	<!-- Adding new slider --> 
 
@@ -116,10 +136,10 @@
 
 	<!-- Selectable Tags -->
     <ol id="selectable">
-	  <li class="ui-widget-content">Random</li>
 	  <li class="ui-widget-content">TopArtists</li>
 	  <li class="ui-widget-content">TopGenres</li>
 	</ol>
+	<p>Default: Plays random songs by default. Ctrl click to deselect</p>
 
 
 	<!--ADDING AJAX CALLS ON SUBMIT-->
@@ -131,7 +151,6 @@
 		 		e.preventDefault();
 		 		console.log();
 		 		$.post("/",$(this).serialize(), function( data ) {
-				  console.log(data);
 				  checkSongExists(data);
 				});
 		 	})
@@ -181,18 +200,27 @@
 		//checks if a valid songId is returned before displaying player block and playing it
 		function checkSongExists(data){
 			//strip double quotes from the string returned from server
-			var videoId = data.replace(/"/g, '');
-
-			if(videoId == "NoSongsReturned"){
+			if(data == "\"NoSongsReturned\""){
 			  	document.getElementById("nosong").style.display = 'block';
 			  	document.getElementById("player").style.display = 'none';  	
+			  	document.getElementById("songDetails").style.display = 'none'; 
 			  	stopVideo();
 			}
 			else{
+				var songDetails = JSON.parse(data);
+				setSongDetails(songDetails);
 				document.getElementById("nosong").style.display = 'none';
 			  	document.getElementById("player").style.display = 'block';
-			  	playReceivedSong(videoId);	
+			  	document.getElementById("songDetails").style.display = 'block'; 
+			  	playReceivedSong(songDetails.url);	
 			}
+		}
+		//sets song details in the table
+		function setSongDetails(songDetails){
+			document.getElementById('songName').innerHTML = ": " + songDetails.songName;
+			document.getElementById('songCountry').innerHTML = ": " + songDetails.songCountry;
+			document.getElementById('songLanguage').innerHTML = ": " + songDetails.songLanguage;
+			document.getElementById('releaseDate').innerHTML = ": " + songDetails.releaseDate;
 		}
 	</script>
     <script>
@@ -247,11 +275,18 @@
       }
     </script>
     <!--Selectable scripts -->
+    <!-- Option is random by default --> 
+    <!-- unselecting the option defaults it back to random -->
     <script>
 	  $(function() {
 	    $( "#selectable" ).selectable({
 		  selected: function( event, ui ) {
 		  	document.getElementById("options").value = ui.selected.innerHTML;
+		  	document.getElementById("submitButton").click();
+		  },
+		  unselected: function( event, ui ) {
+		  	document.getElementById("options").value = "Random";
+		  	document.getElementById("submitButton").click();
 		  }
 		});
 	  });
