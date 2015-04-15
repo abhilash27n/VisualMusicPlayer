@@ -101,16 +101,13 @@
     <!--<div id="player" style="display : none;"></div>-->
     <div id="player" style="display : none; width: 38%; float: right; margin-top: 55px; margin-bottom: 45px"></div>
     <div id="nosong" style="display : none; width: 38%; float: right;">No song from selected country for time period</div>
-    <div id="topArtist" style="display : none; width: 38%; float: right;">
-    	<table>
-    		<tr>
-    			<td>Top Artist</td>
-    			<td id="artistName"></td>
-    		</tr>
-    	</table>
-    </div>
+
     <div id="songDetails" style="display : none; width: 38%; float: right;">
     	<table>
+    		<tr id="artist" style="display : none;">
+    			<td>Artist</td>
+    			<td id="artistName"></td>
+    		</tr>
     		<tr>
     			<td>Song Name</td>
     			<td id="songName"></td>
@@ -131,7 +128,6 @@
     </div>
 
 	<!-- Adding new slider --> 
-
 	<p style="width: 60%; float: left;">
 	  <label for="yearrange">Year Range:</label>
 	  <input type="text" id="yearrange" readonly style="border:0; color:#f6931f; font-weight:bold;">
@@ -150,15 +146,14 @@
 	  <li class="ui-widget-content" id="BottomArtists">Make Someone Poplular</li>
 	  <li class="ui-widget-content" id="TopSongs">Top Songs</li>
 	  <li class="ui-widget-content" id="BottomSongs">Songs people haven't listened to</li>
+	  <li class="ui-widget-content" style="width: 96%;" id="random">Listen to a Random Song</li>
 	</ol>
-	<p style="width: 60%; float: left;">Default: Plays random songs by default. Ctr-click to deselect</p>
 
 
 	<!--ADDING AJAX CALLS ON SUBMIT-->
     <!-- Overriding submit with ajax call-->
     <script type="text/javascript">
 	    $(document).ready(function  () {
-
 		 	$("#countrySubmit").submit(function  (e) {
 		 		e.preventDefault();
 		 		console.log();
@@ -199,6 +194,7 @@
     		document.getElementById('country').value = country;	
     		document.getElementById('topStuff').innerHTML = "Top stuff from "+country;
     		document.getElementById('bottomStuff').innerHTML = "Discover Artist/Songs from "+country;
+    		document.getElementById('random').innerHTML = "Random Songs from "+country;
     		submitForm();
     	}
  
@@ -215,7 +211,7 @@
 			  	document.getElementById("nosong").style.display = 'block';
 			  	document.getElementById("player").style.display = 'none';  	
 			  	document.getElementById("songDetails").style.display = 'none'; 
-			  	document.getElementById("topArtist").style.display = 'none'; 
+			  	document.getElementById("artist").style.display = 'none'; 
 			  	stopVideo();
 			}
 			else{
@@ -224,12 +220,12 @@
 				document.getElementById("nosong").style.display = 'none';
 			  	document.getElementById("player").style.display = 'block';
 			  	document.getElementById("songDetails").style.display = 'block'; 
-			  	//display topArtist only if option selected
-			  	if(document.getElementById("options").value == 'TopArtists'){
-			  		document.getElementById("topArtist").style.display = 'block'; 
+			  	//display artist only if option selected
+			  	if(document.getElementById("options").value == 'TopArtists' || document.getElementById("options").value == 'BottomArtists'){
+			  		document.getElementById("artist").style.display = 'table-row'; 
 			  	}
 			  	else{
-			  		document.getElementById("topArtist").style.display = 'none'; 
+			  		document.getElementById("artist").style.display = 'none'; 
 			  	}
 			  	playReceivedSong(songDetails.url);	
 			}
@@ -240,7 +236,7 @@
 			document.getElementById('songCountry').innerHTML = ": " + songDetails.songCountry;
 			document.getElementById('songLanguage').innerHTML = ": " + songDetails.songLanguage;
 			document.getElementById('releaseDate').innerHTML = ": " + songDetails.releaseDate;
-			if(document.getElementById("options").value == 'TopArtists'){
+			if(document.getElementById("options").value == 'TopArtists' || document.getElementById("options").value == 'BottomArtists'){
 			  		document.getElementById("artistName").innerHTML = ": " + songDetails.artistName;
 			}
 		}
@@ -266,7 +262,8 @@
           videoId: youtube_link,
           events: {
             'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
+            'onStateChange': onPlayerStateChange,
+            'onError': onPlayerError
           }
         });
       }
@@ -297,19 +294,19 @@
       function playReceivedSong(videoId){
 		player.loadVideoById(videoId);
       }
+      //ERROR IN PLAYER
+      function onPlayerError(errorCode) {
+      	submitForm();
+	  }
     </script>
     <!--Selectable scripts -->
     <!-- Option is random by default --> 
-    <!-- unselecting the option defaults it back to random -->
+    <!-- unselecting the option defaults it back to random, removed as selecting different option was also calling unselected -->
     <script>
 	  $(function() {
 	    $( "#selectable" ).selectable({
 		  selected: function( event, ui ) {
 		  	document.getElementById("options").value = ui.selected.id;
-		  	submitForm();
-		  },
-		  unselected: function( event, ui ) {
-		  	document.getElementById("options").value = "Random";
 		  	submitForm();
 		  }
 		});

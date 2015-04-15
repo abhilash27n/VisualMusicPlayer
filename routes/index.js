@@ -32,19 +32,35 @@ router.post('/', function(req, res){
 	var toYear = req.body.toYear;
 	var options = req.body.options;
 	topSongsPercent = 10;
+	bottomSongsPercent = 10;
 
 	//execute query
 	if(options==="Random") {
 		query = 'SELECT youtubeId as url, songName, songCountry, songLanguage, releaseDate from Songs where songCountry = "'+country+'" and releaseDate >= '+fromYear+' and releaseDate <= '+toYear;
+		console.log("Random song selection");
+		console.log(query);
 	}
 	else if (options==="TopArtists") {
 		query = "SELECT song.youtubeId as url, song.songName, song.songCountry, song.songLanguage, song.releaseDate, artist.artistName from Songs song, Artists artist, (select artistId, sum(viewCount) TotalViews from Songs where songCountry='"+country+"' and releaseDate >= '"+fromYear+"' and releaseDate <= '"+toYear+"' group by artistId order by TotalViews desc limit 1) topArtist where song.artistId=topArtist.artistId and topArtist.artistId=artist.artistId";	
+		console.log("Top Artist selection");
 		console.log(query);
 	}
 	else if (options=="TopSongs") {
 		query = 'SELECT youtubeId as url, songName, songCountry, songLanguage, releaseDate from Songs where songCountry = "'+country+'" and releaseDate >= '+fromYear+' and releaseDate <= '+toYear+' order by viewCount desc';
+		console.log("Top Song selection");
 		console.log(query);
 	}
+	else if (options==="BottomArtists") {
+		query = "SELECT song.youtubeId as url, song.songName, song.songCountry, song.songLanguage, song.releaseDate, artist.artistName from Songs song, Artists artist, (select artistId, sum(viewCount) TotalViews from Songs where songCountry='"+country+"' and releaseDate >= '"+fromYear+"' and releaseDate <= '"+toYear+"' group by artistId order by TotalViews asc limit 1) topArtist where song.artistId=topArtist.artistId and topArtist.artistId=artist.artistId";	
+		console.log("Bottom Artist selection");
+		console.log(query);
+	}
+	else if (options=="BottomSongs") {
+		query = 'SELECT youtubeId as url, songName, songCountry, songLanguage, releaseDate from Songs where songCountry = "'+country+'" and releaseDate >= '+fromYear+' and releaseDate <= '+toYear+' order by viewCount asc';
+		console.log("Bottom Song selection");
+		console.log(query);
+	}
+
 
 	connection.query(query, function(err, rows, fields) {
 	if (!err){
@@ -59,6 +75,11 @@ router.post('/', function(req, res){
 	    	//get top n% of songs
 	    	if(options=="TopSongs"){
 	    		no_songs=no_songs/(100/topSongsPercent);
+	    		console.log("No of songs reduced to "+no_songs);
+	    	}
+	    	//get bottom n% of songs
+	    	if(options=="BottomSongs"){
+	    		no_songs=no_songs/(100/bottomSongsPercent);
 	    		console.log("No of songs reduced to "+no_songs);
 	    	}
 	    	//generate randon number between 0 and number of songs
