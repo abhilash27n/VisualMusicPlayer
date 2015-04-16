@@ -133,7 +133,7 @@
 	  <label for="yearrange">Year Range:</label>
 	  <input type="text" id="yearrange" readonly style="border:0; background-color: transparent; font-weight:bold; color: #EEEEEE;">
 	</p>
-	<div id="slider-range" style="width: 55%; float: left; margin-bottom: 10px"></div>
+	<div id="slider-range" style="width: 60%; float: left; margin-bottom: 10px"></div>
 
 	<table style="width: 60%; float: left;">
 		<tr>
