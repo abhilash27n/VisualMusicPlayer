@@ -3951,7 +3951,8 @@ AmCharts.ZoomControl = AmCharts.Class({
         this.minZoomLevel = 1;
         this.zoomControlEnabled = this.panControlEnabled = !0;
         this.buttonRollOverColor = "#CC0000";
-        this.buttonFillColor = "#990000";
+        //Abhilash - button fill color change(990000)
+        this.buttonFillColor = "#555555";
         this.buttonFillAlpha = 1;
         this.buttonBorderColor = "#FFFFFF";
         this.buttonIconAlpha = this.buttonBorderThickness = this.buttonBorderAlpha = 1;
@@ -4412,14 +4413,16 @@ AmCharts.AreasSettings = AmCharts.Class({
         this.alpha = 1;
         this.autoZoom = !1;
         this.balloonText = "[[title]]";
-        this.color = "#FFCC00";
+        //Abhilash - change map color
+        this.color = "#77708E";
         this.colorSolid = "#990000";
         this.unlistedAreasAlpha = 1;
         this.unlistedAreasColor = "#DDDDDD";
         this.outlineColor = "#FFFFFF";
         this.outlineAlpha = 1;
         this.outlineThickness = .5;
-        this.selectedColor = this.rollOverOutlineColor = "#CC0000";
+        //Abhilash - change line color(CC0000)
+        this.selectedColor = this.rollOverOutlineColor = "#333333";
         this.unlistedAreasOutlineColor = "#FFFFFF";
         this.unlistedAreasOutlineAlpha = 1;
         this.descriptionWindowWidth = 250;
