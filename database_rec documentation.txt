@@ -1,0 +1,35 @@
+1) Clear Artist duplicates
+
+create table uniqueArtists as select distinct * from Artists;
+truncate Artists;
+insert into Artists select * from uniqueArtists;
+drop uniqueArtists;
+
+2) Indexes
+Artists - artistId
+Genres - songId
+Songs - songCountry
+
+
+3) Recommendation creation
+
+- Create encoded Genre table
+create table GenreEncoded (GenreId int auto_increment primary key, GenreName varchar(50));
+insert into GenreEncoded(GenreName) select distinct name from Genres order by name;
+
+- Create Genres table with encoded values instead of the names for making recommendation easier
+create table GenresSong as select g.level, ge.GenreId, g.songId from Genres g, GenreEncoded ge where g.name=ge.GenreName;
+
+- Create table for Recommendation
+create table GenreReco(youtubeID varchar(20) Primary key, genreIds varchar(200));
+
+- Create procedure to populate recommendation table
+	create_recommender_table
+	get_encoded_genreIds
+
+TODO
+- Create new Reco table with auto increment primary key and GenreIds in sorted order(CREATE indexes for this table)
+
+- Use this new table and search for songs with +/- 5 primary key 
+
+- Change code to return songs
