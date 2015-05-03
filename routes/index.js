@@ -62,7 +62,8 @@ router.post('/', function(req, res){
 		console.log(query);
 	}
 	else if (options=="Recommend") {
-		query = 'SELECT youtubeId as url, songName, songCountry, songLanguage, releaseDate from Songs where songCountry = ""';
+		query = 'SELECT s.youtubeId as url, s.songName, s.songCountry, s.songLanguage, s.releaseDate from Songs s, (select ge.youtubeId from GenreRecommend ge, (select id-3 as low,id+3 as high from GenreRecommend where youtubeID = "'+youtubeIdRec+'") idsel where ge.id>idsel.low and ge.id<idsel.high and ge.youtubeId <> "'+youtubeIdRec+'") recSongs where s.youtubeId=recSongs.youtubeId';
+
 		console.log("Recommending a song");
 		console.log(query);
 	}

@@ -9,7 +9,7 @@ drop uniqueArtists;
 Artists - artistId
 Genres - songId
 Songs - songCountry
-
+GenresSong - songId
 
 3) Recommendation creation
 
@@ -27,9 +27,13 @@ create table GenreReco(youtubeID varchar(20) Primary key, genreIds varchar(200))
 	create_recommender_table
 	get_encoded_genreIds
 
-TODO
 - Create new Reco table with auto increment primary key and GenreIds in sorted order(CREATE indexes for this table)
+create table GenreRecommend as 
+select (@rownum:=@rownum+1) as id, g.youtubeID, g.genreIds from GenreReco g, 
+(Select @rownum:=0) as rownum order by g.genreIds;
 
-- Use this new table and search for songs with +/- 5 primary key 
+- Use this new table and search for songs with +/- 2 primary key 
+SELECT s.youtubeId as url, s.songName, s.songCountry, s.songLanguage, s.releaseDate from Songs s, (select ge.youtubeId from GenreRecommend ge,
+	(select id-3 as low,id+3 as high from GenreRecommend where youtubeID = 'viExSCWJhRU') idsel
+     where ge.id>idsel.low and ge.id<idsel.high and ge.youtubeId <> 'viExSCWJhRU') recSongs where s.youtubeId=recSongs.youtubeId;
 
-- Change code to return songs
