@@ -157,7 +157,6 @@
 	  <li class="ui-widget-content" style="width: 96%;" id="Recommend">I like this song. More like this please</li>
 	</ol>
 
-	<input type='button' value='resetmap' onclick='buttonClick();'/> 
 	<!--Adding link to twitter based music player-->
 	<a href="http://localhost:8080" style='position: fixed; top:0; right:0;'>What is the world listening to right now??</a>
 
@@ -204,7 +203,6 @@
 	    $( "#yearrange" ).val( $( "#slider-range" ).slider( "values", 0 ) +
 	      " - " + $( "#slider-range" ).slider( "values", 1 ) );
 	  });
-
 
     	//This function is called from ammap.js "clickMapObject" function
     	function getCountry(country){
