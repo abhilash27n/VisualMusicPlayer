@@ -94,7 +94,7 @@
 	    </tr>
 	    <tr>
 	    	<td>YoutubeId</td>
-	    	<td><input type="text" name="youtubeId" id="options" value=""></td>
+	    	<td><input type="text" name="youtubeId" id="youtubeId" value=""></td>
 	    </tr>
 	    <tr>
 	    	<td><input type="submit" value="Submit" id="submitButton"></td>
