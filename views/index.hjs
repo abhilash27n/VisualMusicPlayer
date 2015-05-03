@@ -3,13 +3,13 @@
   <head>
     <title>DB Visual Music Player</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="../jquery-ui-themes-1.11.4/themes/smoothness/jquery-ui.css">
     <!-- Adding the new map code from Ammap -->
     <link rel="stylesheet" href="../ammap/ammap.css" type="text/css">  
 
     <!--for ajax and selectable stuff-->
-    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-  	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="../javascripts/jquery-1.10.2.js"></script>
+  	<script src="../jquery-ui-1.11.4/jquery-ui.js"></script>
   	<!--<script src="http://code.jquery.com/jquery-latest.js"></script>-->
 	<!--Style elements for SELECTABLE (change as required)-->
 	<style>
