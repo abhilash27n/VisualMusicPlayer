@@ -1,0 +1,41 @@
+-- --------------------------------------------------------------------------------
+-- Routine DDL
+-- Note: comments before and after the routine body will not be stored by the server
+-- --------------------------------------------------------------------------------
+DELIMITER $$
+
+CREATE PROCEDURE `create_recommender_table`()
+BEGIN
+ 
+	 DECLARE v_finished INTEGER DEFAULT 0;
+	 DECLARE v_youtubeId varchar(50) DEFAULT "";
+	 DECLARE v_genreIds varchar(200) DEFAULT "";
+	 
+	 -- declare cursor for youtube id
+	 DEClARE ytId_cursor CURSOR FOR 
+	 SELECT DISTINCT songId from Genres;
+	 
+	 -- declare NOT FOUND handler
+	 DECLARE CONTINUE HANDLER 
+	        FOR NOT FOUND SET v_finished = 1;
+	 
+	 OPEN ytId_cursor;
+	 
+		 get_youtube_id: LOOP
+		 
+
+		 FETCH ytId_cursor INTO v_youtubeId;
+
+		 IF v_finished = 1 THEN 
+		 LEAVE get_youtube_id;
+		 END IF;
+
+		 CALL get_encoded_genreIds(v_youtubeId, v_genreIds);
+		 
+       -- SELECT v_youtubeId, v_genreIds;
+       INSERT INTO GenreReco(youtubeID, genreIds) values (v_youtubeID, v_genreIds);
+		 END LOOP get_youtube_id;
+	 
+	 CLOSE ytId_cursor;
+ 
+END

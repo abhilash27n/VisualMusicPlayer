@@ -1,0 +1,41 @@
+-- --------------------------------------------------------------------------------
+-- Routine DDL
+-- Note: comments before and after the routine body will not be stored by the server
+-- --------------------------------------------------------------------------------
+DELIMITER $$
+
+CREATE PROCEDURE `get_encoded_genreIds`(IN v_youtubeId varchar(50), OUT v_genreIds varchar(200))
+BEGIN
+ 
+	 DECLARE v_finished INTEGER DEFAULT 0;
+	 DECLARE v_genreId varchar(10) DEFAULT "";
+	 
+
+		-- check for each song
+	DECLARE genre_cursor CURSOR FOR 
+	select GenreId from GenresSong where songId = v_youtubeId order by level,GenreId;
+		 
+	 -- declare NOT FOUND handler
+ 	 DECLARE CONTINUE HANDLER 
+     FOR NOT FOUND SET v_finished = 1;
+
+     SET v_genreIds = "";
+
+     OPEN genre_cursor;
+
+     	get_genreIds: LOOP
+
+	     	FETCH genre_cursor INTO v_genreId;
+
+	     	IF v_finished = 1 THEN 
+		 	LEAVE get_genreIds;
+		 	END IF;
+
+		 	SET v_genreIds = CONCAT(v_genreIds,"+",v_genreId);
+
+
+	 	END LOOP get_genreIds;
+
+	  CLOSE genre_cursor;
+ 
+END
