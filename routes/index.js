@@ -31,6 +31,7 @@ router.post('/', function(req, res){
 	var fromYear = req.body.fromYear;
 	var toYear = req.body.toYear;
 	var options = req.body.options;
+	var youtubeIdRec = req.body.youtubeId;
 	topSongsPercent = 10;
 	bottomSongsPercent = 10;
 
@@ -58,6 +59,11 @@ router.post('/', function(req, res){
 	else if (options=="BottomSongs") {
 		query = 'SELECT youtubeId as url, songName, songCountry, songLanguage, releaseDate from Songs where songCountry = "'+country+'" and releaseDate >= '+fromYear+' and releaseDate <= '+toYear+' order by viewCount asc';
 		console.log("Bottom Song selection");
+		console.log(query);
+	}
+	else if (options=="Recommend") {
+		query = 'SELECT youtubeId as url, songName, songCountry, songLanguage, releaseDate from Songs where songCountry = ""';
+		console.log("Recommending a song");
 		console.log(query);
 	}
 
