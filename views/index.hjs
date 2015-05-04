@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>DB Visual Music Player</title>
+    <title>Discover Music..like never before</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel="stylesheet" href="../jquery-ui-themes-1.11.4/themes/smoothness/jquery-ui.css">
     <!-- Adding the new map code from Ammap -->
@@ -75,7 +75,9 @@
     </script>
   </head>
   <body background="../images/background-dark-disc-vinyl-music.jpg" style="color:#DDDDDD; background-attachment: fixed; background-size: 100%; ">
-    <h1>DB Visual Music Player</h1>
+    <div style="float:left; height:100px; width:60%;">
+    <img style="height:100px" src="../images/discoverMusic.gif">
+    </div>
 	<div id="mapdiv" style="width: 60%; background-color: transparent; height: 500px; float:left; margin-bottom: 20px;"></div>      
 	<div style="display: none;" >
 	<!-- <div> -->
