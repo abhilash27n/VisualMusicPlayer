@@ -390,8 +390,13 @@
 	    "valueField": "numSongs",
 	    "titleField": "genreName",
 	    //"radius": "28%",
-	    "labelRadius": 4,
-	    "labelText": "[[percents]]%"
+	    "labelRadius": 5,
+	    "color": "#DDDDDD",
+	    "pieBaseColor": "#DDDDDD",
+	    "pieBrightnessStep": "-5",
+	    "labelTickColor": "#DDDDDD",
+	    "fontSize": "13",
+	    "labelText": "[[title]]: [[percents]]%"
 
 	});
 
