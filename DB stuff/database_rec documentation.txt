@@ -10,6 +10,7 @@ Artists - artistId
 Genres - songId
 Songs - songCountry
 GenresSong - songId
+GenreRecommend - id, youtubeId
 
 3) Recommendation creation
 
