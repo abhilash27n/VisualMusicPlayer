@@ -7,6 +7,11 @@
     <!-- Adding the new map code from Ammap -->
     <link rel="stylesheet" href="../ammap/ammap.css" type="text/css">  
 
+    <!--Pie chart files-->
+    <script type="text/javascript" src="http://www.amcharts.com/lib/3/amcharts.js"></script>
+	<script type="text/javascript" src="http://www.amcharts.com/lib/3/pie.js"></script>
+	<script type="text/javascript" src="http://www.amcharts.com/lib/3/themes/none.js"></script>
+
     <!--for ajax and selectable stuff-->
     <script src="../javascripts/jquery-1.10.2.js"></script>
   	<script src="../jquery-ui-1.11.4/jquery-ui.js"></script>
@@ -102,11 +107,17 @@
 	   	</tr>
 	    </table>
     </form>
+    <!--Adding for Stats-->
+    <form action='/' method='post' id='genreStats'>
+    	 <input type="text" name="country2" id="country2" value="{{ country_name }}"/>
+    	 <input type="submit" value="Show me the stats!" id="submitButton2"/>
+    </form>
     </div>
+    
 
     <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
     <!--<div id="player" style="display : none;"></div>-->
-    <div id="player" style="display : none; width: 38%; float: right; margin-top: 55px; margin-bottom: 45px"></div>
+    <div id="player" style="display : none; width: 38%; float: right; margin-bottom: 15px"></div>
     <div id="nosong" style="display : none; width: 38%; float: right;">No song from selected country for time period</div>
 
     <div id="songDetails" style="display : none; width: 38%; float: right;">
@@ -160,6 +171,10 @@
 	<!--Adding link to twitter based music player-->
 	<a href="http://localhost:8080" style='position: fixed; top:0; right:0;'>What is the world listening to right now??</a>
 
+
+	<!--display pie chart -->
+	<div id="chartdiv" style="width: 640px; height: 300px; color:#DDDDDD; align="center";"></div>
+
 	<footer style='position:fixed;bottom:0;left:5;right:0;height:30px;'>
 		<p>&copy; Copyright 2015 - Abhilash Guhan Company</p>
 	</footer>
@@ -170,9 +185,17 @@
 	    $(document).ready(function  () {
 		 	$("#countrySubmit").submit(function  (e) {
 		 		e.preventDefault();
-		 		console.log();
 		 		$.post("/",$(this).serialize(), function( data ) {
 				  checkSongExists(data);
+				});
+		 	})
+		 });
+
+	    $(document).ready(function  () {
+		 	$("#genreStats").submit(function  (e) {
+		 		e.preventDefault();
+		 		$.post("/",$(this).serialize(), function( data ) {
+				  displayGraph(data);
 				});
 		 	})
 		 });
@@ -210,17 +233,25 @@
     		document.getElementById('topStuff').innerHTML = "Top stuff from "+country;
     		document.getElementById('bottomStuff').innerHTML = "Discover Artist/Songs from "+country;
     		document.getElementById('Random').innerHTML = "Random Songs from "+country;
+    		document.getElementById('country2').value = country;
     		//change to Random if Recommend
     		checkIfRecommend();
+    		//submit genre form
+    		submitForm2();
+    		//submit song form
     		submitForm();
     	}
- 
+ 		//song form
 		function submitForm(){
 			if(document.getElementById('country').value != "None"){
 				//Not sure why direct submit is not working. Clicking submit is being overridden in ajax call above
 				//document.getElementById("countrySubmit").submit();
 				document.getElementById("submitButton").click();
 			}
+		}
+		//chart form
+		function submitForm2(){
+			document.getElementById("submitButton2").click();
 		}
 		//checks if a valid songId is returned before displaying player block and playing it
 		function checkSongExists(data){
@@ -273,7 +304,12 @@
 			}
 		}
 
-		//update selectable Tags
+		//display graph from received data
+		function displayGraph(data){
+			chart.dataProvider = JSON.parse(data);
+			chart.validateData();
+		}
+
 	</script>
     <script>
       // 2. This code loads the IFrame Player API code asynchronously.
@@ -344,6 +380,22 @@
 		});
 	  });
   </script>
+  <!--pie chart javascript-->
+	<script type="text/javascript">
+
+	var chart = AmCharts.makeChart("chartdiv", {
+	    "type": "pie",
+		"theme": "none",
+	    "dataProvider": "",
+	    "valueField": "numSongs",
+	    "titleField": "genreName",
+	    //"radius": "28%",
+	    "labelRadius": 4,
+	    "labelText": "[[percents]]%"
+
+	});
+
+    </script>
   </body>
   	
 </html>

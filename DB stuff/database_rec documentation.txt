@@ -37,3 +37,11 @@ SELECT s.youtubeId as url, s.songName, s.songCountry, s.songLanguage, s.releaseD
 	(select id-3 as low,id+3 as high from GenreRecommend where youtubeID = 'viExSCWJhRU') idsel
      where ge.id>idsel.low and ge.id<idsel.high and ge.youtubeId <> 'viExSCWJhRU') recSongs where s.youtubeId=recSongs.youtubeId;
 
+
+- Creating Genre by Country stat table
+create table GenreStats (songCountry varchar(50), genreName varchar(50), numSongs int) as
+select S.songCountry, G.name, count(*) numSongs from 
+Songs S, Genres G where 
+S.youtubeId = G.songId and G.level = 1 
+group by S.songCountry, G.name;
+
