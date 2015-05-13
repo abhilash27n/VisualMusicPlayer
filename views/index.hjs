@@ -365,6 +365,9 @@
           width: '640',
           videoId: '{{ youtube_link }}',
           videoId: youtube_link,
+          playerVars: {
+          	'controls': 0
+          },
           events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange,
