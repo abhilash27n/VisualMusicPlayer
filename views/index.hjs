@@ -205,7 +205,7 @@
 
 
 	<!--display pie chart -->
-	<div id="chartdiv" style="width: 640px; height: 300px; color:#DDDDDD; align="center";"></div>
+	<div id="chartdiv" style="width: 640px; height: 300px; color:#DDDDDD; display: none;"></div>
 
 	<footer style='position:fixed;bottom:0;left:5;right:0;height:30px;'>
 		<p>&copy; Copyright 2015 - Abhilash Guhan Company</p>
@@ -219,6 +219,7 @@
 		 		e.preventDefault();
 		 		$.post("/",$(this).serialize(), function( data ) {
 		 		  document.getElementById("disablingDiv").style.display = 'none';
+		 		  document.getElementById("chartdiv").style.display = 'block';
 				  checkSongExists(data);
 				});
 		 	})
@@ -267,6 +268,7 @@
     		document.getElementById('bottomStuff').innerHTML = "Discover Artist/Songs from "+country;
     		document.getElementById('Random').innerHTML = "Random Songs from "+country;
     		document.getElementById('country2').value = country;
+    		document.getElementById("chartdiv").style.display = 'none';
     		//change to Random if Recommend
     		checkIfRecommend();
     		//submit genre form
@@ -280,6 +282,7 @@
 				//Not sure why direct submit is not working. Clicking submit is being overridden in ajax call above
 				//document.getElementById("countrySubmit").submit();
 				document.getElementById("disablingDiv").style.display = 'block';
+
 				document.getElementById("submitButton").click();
 			}
 		}
@@ -424,7 +427,7 @@
 	    "valueField": "numSongs",
 	    "titleField": "genreName",
 	    //"radius": "28%",
-	    "labelRadius": 5,
+	    "labelRadius": 15,
 	    "color": "#DDDDDD",
 	    "pieBaseColor": "#DDDDDD",
 	    "pieBrightnessStep": "-6",
