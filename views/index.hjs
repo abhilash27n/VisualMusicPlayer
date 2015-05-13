@@ -24,6 +24,8 @@
 	  #selectable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
 	  #selectable li { margin: 0.2%; padding: 1%; float: left; font-size: 1.4em; height: 18px; width: 46.72%; }
 	</style>    	
+
+
     
     <script src="../ammap/ammap.js" type="text/javascript"></script>
     <!-- map file should be included after ammap.js -->
@@ -75,6 +77,10 @@
     </script>
   </head>
   <body background="../images/background-dark-disc-vinyl-music.jpg" style="color:#DDDDDD; background-attachment: fixed; background-size: 100%; ">
+
+  	<!--disable clicks by displaying transparent background while getting response from server-->
+  	<div id="disablingDiv" ></div>
+
     <div style="float:left; height:100px; width:60%;">
     <img style="height:100px" src="../images/discoverMusic.gif">
     </div>
@@ -188,6 +194,7 @@
 		 	$("#countrySubmit").submit(function  (e) {
 		 		e.preventDefault();
 		 		$.post("/",$(this).serialize(), function( data ) {
+		 		  document.getElementById("disablingDiv").style.display = 'none';
 				  checkSongExists(data);
 				});
 		 	})
@@ -248,6 +255,7 @@
 			if(document.getElementById('country').value != "None"){
 				//Not sure why direct submit is not working. Clicking submit is being overridden in ajax call above
 				//document.getElementById("countrySubmit").submit();
+				document.getElementById("disablingDiv").style.display = 'block';
 				document.getElementById("submitButton").click();
 			}
 		}
